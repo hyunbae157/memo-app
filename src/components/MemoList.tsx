@@ -2,6 +2,7 @@
 
 import { Memo, MEMO_CATEGORIES, DEFAULT_CATEGORIES } from '@/types/memo'
 import MemoItem from './MemoItem'
+import MemoDetailModal from './MemoDetailModal'
 
 interface MemoListProps {
   memos: Memo[]
@@ -11,7 +12,11 @@ interface MemoListProps {
   onSearchChange: (query: string) => void
   onCategoryChange: (category: string) => void
   onEditMemo: (memo: Memo) => void
-  onDeleteMemo: (id: string) => void
+  onDeleteMemo: (id: string) => Promise<void>
+  selectedMemo: Memo | null
+  isDetailModalOpen: boolean
+  onViewMemo: (memo: Memo) => void
+  onCloseDetailModal: () => void
   stats: {
     total: number
     filtered: number
@@ -28,6 +33,10 @@ export default function MemoList({
   onCategoryChange,
   onEditMemo,
   onDeleteMemo,
+  selectedMemo,
+  isDetailModalOpen,
+  onViewMemo,
+  onCloseDetailModal,
   stats,
 }: MemoListProps) {
   if (loading) {
@@ -153,10 +162,20 @@ export default function MemoList({
               memo={memo}
               onEdit={onEditMemo}
               onDelete={onDeleteMemo}
+              onView={onViewMemo}
             />
           ))}
         </div>
       )}
+
+      {/* 메모 상세 보기 모달 */}
+      <MemoDetailModal
+        memo={selectedMemo}
+        isOpen={isDetailModalOpen}
+        onClose={onCloseDetailModal}
+        onEdit={onEditMemo}
+        onDelete={onDeleteMemo}
+      />
     </div>
   )
 }
