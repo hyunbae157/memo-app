@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@uiw/react-md-editor/markdown-editor.css';
+@import '@uiw/react-markdown-preview/markdown.css';
 
 :root {
   --background: #ffffff;
@@ -40,6 +42,140 @@ body {
   line-clamp: 3; /* 표준 속성 추가 */
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+
+
+/* TailwindCSS Preflight 완전 차단 - MDEditor */
+.w-md-editor {
+  background-color: #fff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 300px !important;
+  min-height: 300px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  position: relative !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* .w-md-editor * {
+  all: revert !important;
+} */
+
+/* 명시적인 레이아웃 강제 적용 */
+.w-md-editor .w-md-editor-toolbar {
+  background: #f9fafb !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  padding: 8px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 40px !important;
+  flex-shrink: 0 !important;
+}
+
+.w-md-editor .w-md-editor-toolbar ul {
+  all: revert !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 2px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.w-md-editor .w-md-editor-toolbar li {
+  all: revert !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.w-md-editor .w-md-editor-toolbar button {
+  all: revert !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 4px !important;
+  margin: 0 1px !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+/* 드롭다운 메뉴 숨김 처리 */
+.w-md-editor .w-md-editor-toolbar .w-md-editor-toolbar-child {
+  display: none !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  z-index: 50 !important;
+  min-width: 120px !important;
+}
+
+.w-md-editor .w-md-editor-toolbar button:hover .w-md-editor-toolbar-child,
+.w-md-editor .w-md-editor-toolbar button:focus .w-md-editor-toolbar-child,
+.w-md-editor .w-md-editor-toolbar li:hover .w-md-editor-toolbar-child {
+  display: block !important;
+}
+
+/* 제목 버튼 특별 처리 */
+.w-md-editor .w-md-editor-toolbar li {
+  position: relative !important;
+}
+
+.w-md-editor .w-md-editor-toolbar li ul {
+  display: none !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  z-index: 50 !important;
+  min-width: 120px !important;
+  flex-direction: column !important;
+  padding: 4px !important;
+}
+
+.w-md-editor .w-md-editor-toolbar li:hover ul {
+  display: flex !important;
+}
+
+.w-md-editor .w-md-editor-toolbar li ul li {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.w-md-editor .w-md-editor-toolbar li ul button {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 8px 12px !important;
+  margin: 0 !important;
+  justify-content: flex-start !important;
 }
 
 /* React MDEditor 마크다운 리스트 스타일 강제 적용 */
@@ -97,4 +233,480 @@ div[data-color-mode="light"] ul ul ul,
 
 .w-md-editor li {
   display: list-item !important;
+}
+
+/* 텍스트 영역 스타일링 개선 - 스크롤 중복 방지 */
+.w-md-editor-text-textarea, 
+.w-md-editor-text {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 250px !important;
+  min-height: 250px !important;
+  max-height: 250px !important;
+  padding: 12px !important;
+  border: none !important;
+  outline: none !important;
+  resize: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #374151 !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+.w-md-editor-text-container {
+  display: flex !important;
+  flex: 1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 250px !important;
+  min-height: 250px !important;
+  max-height: 250px !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* 에디터 전체 컨테이너 스크롤 완전 제거 */
+.w-md-editor {
+  overflow: visible !important;
+}
+
+.w-md-editor .w-md-editor-content {
+  overflow: visible !important;
+}
+
+/* 분할 뷰 스크롤 제거 */
+.w-md-editor .w-md-editor-split {
+  overflow: visible !important;
+}
+
+/* 프리뷰 영역만 스크롤 허용 - 아래에서 통합 정의됨 */
+
+/* 모든 외부 컨테이너 스크롤 완전 제거 */
+.w-md-editor,
+.w-md-editor-bar,
+.w-md-editor-content,
+.w-md-editor-view,
+.w-md-editor-focus,
+div[data-color-mode="light"] {
+  overflow: visible !important;
+}
+
+/* 최강 스크롤 제거 - 모든 컨테이너 */
+.w-md-editor * {
+  overflow: visible !important;
+}
+
+/* 텍스트 영역만 스크롤 허용하고 나머지 모두 제거 */
+.w-md-editor .w-md-editor-text-textarea,
+.w-md-editor .w-md-editor-text {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.w-md-editor .w-md-editor-preview {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 모든 외부 래퍼 스크롤 강제 제거 */
+.w-md-editor,
+.w-md-editor > *,
+.w-md-editor-content,
+.w-md-editor-text-container,
+div[data-color-mode="light"],
+div[data-color-mode="light"] > * {
+  overflow: visible !important;
+}
+
+/* 궁극의 스크롤 제거 - 모든 가능한 컨테이너 */
+.w-md-editor,
+.w-md-editor-view,
+.w-md-editor-content,
+.w-md-editor-text-container,
+.w-md-editor .w-md-editor-text-container,
+.w-md-editor .w-md-editor-content,
+.w-md-editor .w-md-editor-view,
+.w-md-editor .w-md-editor-split,
+div[class*="w-md-editor"]:not(.w-md-editor-text):not(.w-md-editor-text-textarea):not(.w-md-editor-preview) {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* 분할 뷰에서 좌우 영역 스크롤 통합 제어 */
+.w-md-editor-view {
+  max-height: 250px !important;
+  overflow: hidden !important;
+}
+
+.w-md-editor-view .w-md-editor-text,
+.w-md-editor-view .w-md-editor-preview {
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 오직 텍스트 입력 영역만 스크롤 허용 */
+textarea.w-md-editor-text-textarea,
+.w-md-editor-text-textarea {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 250px !important;
+}
+
+/* 분할 뷰 전체 높이 제한 */
+.w-md-editor.w-md-editor-view {
+  max-height: 250px !important;
+  overflow: hidden !important;
+}
+
+/* ✨ 올바른 분할 뷰 구현 - Live 모드 ✨ */
+
+/* 전체 에디터 컨테이너 */
+.w-md-editor[data-preview="live"] {
+  height: 300px !important;
+  max-height: 300px !important;
+  overflow: hidden !important;
+  display: block !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+}
+
+/* 분할 뷰 컨테이너 */
+.w-md-editor[data-preview="live"] .w-md-editor-view {
+  height: 250px !important;
+  max-height: 250px !important;
+  display: flex !important;
+  overflow: hidden !important;
+}
+
+/* 좌측 편집 영역 */
+.w-md-editor[data-preview="live"] .w-md-editor-text {
+  flex: 1 !important;
+  height: 250px !important;
+  max-height: 250px !important;
+  border-right: 1px solid #e5e7eb !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 우측 프리뷰 영역 */
+.w-md-editor[data-preview="live"] .w-md-editor-preview {
+  flex: 1 !important;
+  height: 250px !important;
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 12px !important;
+  background-color: #ffffff !important;
+}
+
+/* 텍스트 입력 영역 */
+.w-md-editor[data-preview="live"] textarea {
+  height: 100% !important;
+  border: none !important;
+  resize: none !important;
+  padding: 12px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+/* 프리뷰 영역 통합 정의 */
+.w-md-editor-preview {
+  padding: 12px !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  width: 100% !important;
+  height: 250px !important;
+  max-height: 250px !important;
+  min-height: 250px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* 프리뷰 전용 모드 */
+.w-md-editor[data-color-mode="light"] .w-md-editor-preview {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px !important;
+  padding: 16px !important;
+  display: block !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+
+/* hideToolbar 상태의 에디터 - 강제 표시 */
+.w-md-editor[data-hideToolbar="true"],
+.w-md-editor.w-md-editor-hide-toolbar,
+.w-md-editor[style*="hideToolbar"] {
+  display: block !important;
+  height: auto !important;
+  min-height: 200px !important;
+  border: none !important;
+  background: transparent !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.w-md-editor[data-hideToolbar="true"] .w-md-editor-preview,
+.w-md-editor.w-md-editor-hide-toolbar .w-md-editor-preview,
+.w-md-editor[style*="hideToolbar"] .w-md-editor-preview {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px !important;
+  padding: 16px !important;
+  visibility: visible !important;
+  overflow: visible !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  position: static !important;
+}
+
+/* 프리뷰 전용 에디터 강제 표시 */
+.w-md-editor[data-preview="preview"] {
+  display: block !important;
+  height: auto !important;
+  min-height: 200px !important;
+}
+
+.w-md-editor[data-preview="preview"] .w-md-editor-preview {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px !important;
+  padding: 16px !important;
+  visibility: visible !important;
+  overflow: visible !important;
+  background-color: #ffffff !important;
+}
+
+/* 프리뷰 모드의 마크다운 요소들 */
+.w-md-editor-preview h1,
+.w-md-editor-preview h2,
+.w-md-editor-preview h3,
+.w-md-editor-preview h4,
+.w-md-editor-preview h5,
+.w-md-editor-preview h6 {
+  display: block !important;
+  margin: 1em 0 0.5em 0 !important;
+  font-weight: bold !important;
+  line-height: 1.2 !important;
+}
+
+.w-md-editor-preview h1 { font-size: 2em !important; }
+.w-md-editor-preview h2 { font-size: 1.5em !important; }
+.w-md-editor-preview h3 { font-size: 1.25em !important; }
+
+.w-md-editor-preview p {
+  display: block !important;
+  margin: 1em 0 !important;
+  line-height: 1.6 !important;
+}
+
+.w-md-editor-preview strong {
+  font-weight: bold !important;
+}
+
+.w-md-editor-preview em {
+  font-style: italic !important;
+}
+
+.w-md-editor-preview ul,
+.w-md-editor-preview ol {
+  display: block !important;
+  list-style: revert !important;
+  padding-left: 2rem !important;
+  margin: 1rem 0 !important;
+}
+
+.w-md-editor-preview li {
+  display: list-item !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.w-md-editor-preview code {
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  font-size: 0.875em !important;
+}
+
+.w-md-editor-preview pre {
+  background-color: #f3f4f6 !important;
+  padding: 12px !important;
+  border-radius: 6px !important;
+  overflow-x: auto !important;
+  margin: 1rem 0 !important;
+}
+
+.w-md-editor-preview blockquote {
+  border-left: 4px solid #e5e7eb !important;
+  padding-left: 1rem !important;
+  margin: 1rem 0 !important;
+  color: #6b7280 !important;
+}
+
+.w-md-editor-preview a {
+  color: #3b82f6 !important;
+  text-decoration: underline !important;
+}
+
+/* 분할선 */
+.w-md-editor-split {
+  background-color: #e5e7eb !important;
+  width: 1px !important;
+  min-width: 1px !important;
+}
+
+/* 코드 블록 */
+.w-md-editor-text-container .token.title,
+.w-md-editor-preview code {
+  background-color: #f3f4f6 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+}
+
+/* 전체 에디터 컨테이너 크기 제한 및 안정화 */
+.w-md-editor-text-input,
+.w-md-editor-text-textarea {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  word-wrap: break-word !important;
+}
+
+/* 에디터 내부 요소들 크기 제한 */
+.w-md-editor .CodeMirror,
+.w-md-editor .cm-editor {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 모달 내 에디터 추가 안정화 */
+[data-color-mode="light"] .w-md-editor {
+  contain: layout !important;
+}
+
+/* 강제 박스 크기 조정 */
+.w-md-editor,
+.w-md-editor *,
+.w-md-editor *::before,
+.w-md-editor *::after {
+  box-sizing: border-box !important;
+}
+
+/* 모든 마크다운 에디터 요소 강제 표시 */
+.w-md-editor,
+.w-md-editor-preview,
+.w-md-editor-text-container,
+.w-md-editor-text,
+.w-md-editor-text-textarea {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 프리뷰 컨텐츠 강제 표시 */
+.w-md-editor-preview * {
+  display: initial !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 최후의 수단 - div 안의 모든 요소 표시 */
+div[data-color-mode="light"] .w-md-editor {
+  display: block !important;
+  visibility: visible !important;
+  height: auto !important;
+  min-height: 200px !important;
+}
+
+div[data-color-mode="light"] .w-md-editor .w-md-editor-preview {
+  display: block !important;
+  visibility: visible !important;
+  height: auto !important;
+  min-height: 200px !important;
+  width: 100% !important;
+  padding: 16px !important;
+}
+
+/* 극단적 강제 표시 방법 */
+.w-md-editor[data-color-mode="light"],
+[data-color-mode="light"] .w-md-editor {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 200px !important;
+  background-color: #ffffff !important;
+}
+
+.w-md-editor[data-color-mode="light"] .w-md-editor-preview,
+[data-color-mode="light"] .w-md-editor .w-md-editor-preview {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 200px !important;
+  width: 100% !important;
+  padding: 16px !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* 모든 프리뷰 하위 요소 강제 표시 */
+.w-md-editor-preview *,
+[data-color-mode="light"] .w-md-editor-preview * {
+  display: revert !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: inherit !important;
+}
+
+/* 최우선 강제 크기 설정 */
+.w-md-editor {
+  min-height: 300px !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.w-md-editor .w-md-editor-text-container {
+  min-height: 250px !important;
+  height: auto !important;
+}
+
+.w-md-editor .w-md-editor-text-textarea {
+  min-height: 250px !important;
+  height: auto !important;
+}
+
+/* 컨테이너 강제 표시 */
+div[data-color-mode="light"] {
+  min-height: 300px !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+div[data-color-mode="light"] .w-md-editor {
+  min-height: 300px !important;
+  display: flex !important;
+  visibility: visible !important;
 }

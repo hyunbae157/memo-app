@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { Memo, MEMO_CATEGORIES } from '@/types/memo'
 import MDEditorWrapper from './MDEditorWrapper'
+import ReactMarkdown from 'react-markdown'
 
 interface MemoDetailModalProps {
   memo: Memo | null
@@ -135,14 +136,28 @@ export default function MemoDetailModal({
         <div className="p-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">내용</h2>
-            <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-              <MDEditorWrapper
-                value={memo.content}
-                preview="preview"
-                hideToolbar
-                data-color-mode="light"
-                height={memo.content.length > 500 ? 400 : 200}
-              />
+            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white min-h-[200px]">
+              <div className="p-4 bg-white text-gray-800" style={{ minHeight: '200px' }}>
+                <ReactMarkdown 
+                  components={{
+                    h1: ({children}) => <h1 className="text-2xl font-bold mb-4 text-gray-900">{children}</h1>,
+                    h2: ({children}) => <h2 className="text-xl font-bold mb-3 text-gray-900">{children}</h2>,
+                    h3: ({children}) => <h3 className="text-lg font-bold mb-2 text-gray-900">{children}</h3>,
+                    p: ({children}) => <p className="mb-3 text-gray-700 leading-relaxed">{children}</p>,
+                    strong: ({children}) => <strong className="font-bold text-gray-900">{children}</strong>,
+                    em: ({children}) => <em className="italic text-gray-700">{children}</em>,
+                    code: ({children}) => <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">{children}</code>,
+                    pre: ({children}) => <pre className="bg-gray-100 p-3 rounded-lg mb-4 overflow-x-auto">{children}</pre>,
+                    ul: ({children}) => <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700">{children}</ul>,
+                    ol: ({children}) => <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700">{children}</ol>,
+                    li: ({children}) => <li className="text-gray-700">{children}</li>,
+                    blockquote: ({children}) => <blockquote className="border-l-4 border-gray-300 pl-4 mb-4 italic text-gray-600">{children}</blockquote>,
+                    a: ({children, href}) => <a href={href} className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">{children}</a>
+                  }}
+                >
+                  {memo.content}
+                </ReactMarkdown>
+              </div>
             </div>
           </div>
 

@@ -180,7 +180,7 @@ export default function MemoForm({
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 내용 * (마크다운 지원)
               </label>
-              <div className="border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-colors">
+              <div className="border border-gray-300 rounded-lg" style={{ overflow: 'visible', height: '300px' }}>
                 <MDEditorWrapper
                   value={formData.content}
                   onChange={(value) =>
@@ -191,9 +191,25 @@ export default function MemoForm({
                   }
                   height={300}
                   data-color-mode="light"
+                  preview="live"
                   textareaProps={{
                     placeholder: '메모 내용을 마크다운으로 입력하세요...\n\n# 제목\n## 부제목\n- 리스트\n**굵은 글씨**\n*기울임*\n`코드`',
-                    style: { fontSize: 14, lineHeight: 1.5 }
+                    style: { 
+                      fontSize: 14, 
+                      lineHeight: 1.5,
+                      minHeight: '250px',
+                      maxHeight: '250px',
+                      padding: '12px',
+                      border: 'none',
+                      outline: 'none',
+                      resize: 'none',
+                      overflowY: 'auto'
+                    }
+                  }}
+                  style={{
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    overflow: 'visible'
                   }}
                 />
               </div>
