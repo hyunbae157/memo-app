@@ -29,6 +29,7 @@ body {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 추가 */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -36,6 +37,64 @@ body {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3; /* 표준 속성 추가 */
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* React MDEditor 마크다운 리스트 스타일 강제 적용 */
+.wmde-markdown ul,
+.wmde-markdown ol,
+div[data-color-mode="light"] ul,
+div[data-color-mode="light"] ol,
+.w-md-editor-preview ul,
+.w-md-editor-preview ol {
+  list-style: revert !important;
+  padding-left: 2rem !important;
+  margin: 1rem 0 !important;
+}
+
+.wmde-markdown ul,
+div[data-color-mode="light"] ul,
+.w-md-editor-preview ul {
+  list-style-type: disc !important;
+}
+
+.wmde-markdown ol,
+div[data-color-mode="light"] ol,
+.w-md-editor-preview ol {
+  list-style-type: decimal !important;
+}
+
+.wmde-markdown li,
+div[data-color-mode="light"] li,
+.w-md-editor-preview li {
+  display: list-item !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.6 !important;
+}
+
+.wmde-markdown ul ul,
+div[data-color-mode="light"] ul ul,
+.w-md-editor-preview ul ul {
+  list-style-type: circle !important;
+  margin: 0.5rem 0 !important;
+}
+
+.wmde-markdown ul ul ul,
+div[data-color-mode="light"] ul ul ul,
+.w-md-editor-preview ul ul ul {
+  list-style-type: square !important;
+}
+
+/* Tailwind CSS 프리플라이트 스타일 오버라이드 */
+.w-md-editor ul,
+.w-md-editor ol {
+  list-style: revert !important;
+  padding-left: 2rem !important;
+  margin: 1rem 0 !important;
+}
+
+.w-md-editor li {
+  display: list-item !important;
 }

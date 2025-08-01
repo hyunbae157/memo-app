@@ -7,11 +7,12 @@ import {
   MEMO_CATEGORIES,
   DEFAULT_CATEGORIES,
 } from '@/types/memo'
+import MDEditorWrapper from './MDEditorWrapper'
 
 interface MemoFormProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (data: MemoFormData) => void
+  onSubmit: (data: MemoFormData) => Promise<void>
   editingMemo?: Memo | null
 }
 
@@ -49,14 +50,20 @@ export default function MemoForm({
     setTagInput('')
   }, [editingMemo, isOpen])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.title.trim() || !formData.content.trim()) {
       alert('제목과 내용을 모두 입력해주세요.')
       return
     }
-    onSubmit(formData)
-    onClose()
+    
+    try {
+      await onSubmit(formData)
+      onClose()
+    } catch (error) {
+      console.error('Failed to submit memo:', error)
+      alert('메모 저장에 실패했습니다.')
+    }
   }
 
   const handleAddTag = () => {
@@ -168,28 +175,28 @@ export default function MemoForm({
               </select>
             </div>
 
-            {/* 내용 */}
+            {/* 내용 - 마크다운 에디터 */}
             <div>
-              <label
-                htmlFor="content"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                내용 *
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                내용 * (마크다운 지원)
               </label>
-              <textarea
-                id="content"
-                value={formData.content}
-                onChange={e =>
-                  setFormData(prev => ({
-                    ...prev,
-                    content: e.target.value,
-                  }))
-                }
-                className="placeholder-gray-400 text-gray-400 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                placeholder="메모 내용을 입력하세요"
-                rows={8}
-                required
-              />
+              <div className="border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-colors">
+                <MDEditorWrapper
+                  value={formData.content}
+                  onChange={(value) =>
+                    setFormData(prev => ({
+                      ...prev,
+                      content: value || '',
+                    }))
+                  }
+                  height={300}
+                  data-color-mode="light"
+                  textareaProps={{
+                    placeholder: '메모 내용을 마크다운으로 입력하세요...\n\n# 제목\n## 부제목\n- 리스트\n**굵은 글씨**\n*기울임*\n`코드`',
+                    style: { fontSize: 14, lineHeight: 1.5 }
+                  }}
+                />
+              </div>
             </div>
 
             {/* 태그 */}

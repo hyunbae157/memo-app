@@ -5,10 +5,11 @@ import { Memo, MEMO_CATEGORIES } from '@/types/memo'
 interface MemoItemProps {
   memo: Memo
   onEdit: (memo: Memo) => void
-  onDelete: (id: string) => void
+  onDelete: (id: string) => Promise<void>
+  onView: (memo: Memo) => void
 }
 
-export default function MemoItem({ memo, onEdit, onDelete }: MemoItemProps) {
+export default function MemoItem({ memo, onEdit, onDelete, onView }: MemoItemProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('ko-KR', {
@@ -31,8 +32,40 @@ export default function MemoItem({ memo, onEdit, onDelete }: MemoItemProps) {
     return colors[category as keyof typeof colors] || colors.other
   }
 
+  // 마크다운 문법을 제거하고 순수 텍스트로 변환
+  const stripMarkdown = (markdown: string) => {
+    return markdown
+      // 헤더 (#, ##, ###)
+      .replace(/^#{1,6}\s+/gm, '')
+      // 굵은 글씨 (**text**, __text__)
+      .replace(/(\*\*|__)(.*?)\1/g, '$2')
+      // 기울임 (*text*, _text_)
+      .replace(/(\*|_)(.*?)\1/g, '$2')
+      // 코드 블록 (```code```)
+      .replace(/```[\s\S]*?```/g, '[코드 블록]')
+      // 인라인 코드 (`code`)
+      .replace(/`([^`]+)`/g, '$1')
+      // 링크 [text](url)
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+      // 이미지 ![alt](url)
+      .replace(/!\[([^\]]*)\]\([^\)]+\)/g, '[이미지: $1]')
+      // 리스트 (-, *, +)
+      .replace(/^[\s]*[-\*\+]\s+/gm, '• ')
+      // 순서 있는 리스트 (1., 2., etc.)
+      .replace(/^[\s]*\d+\.\s+/gm, '• ')
+      // 인용문 (>)
+      .replace(/^>\s+/gm, '')
+      // 수평선 (---, ***)
+      .replace(/^[-\*]{3,}$/gm, '')
+      // 여러 개의 공백을 하나로
+      .replace(/\s+/g, ' ')
+      // 앞뒤 공백 제거
+      .trim()
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200">
+    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+         onClick={() => onView(memo)}>
       {/* 헤더 */}
       <div className="flex justify-between items-start mb-3">
         <div className="flex-1">
@@ -55,7 +88,10 @@ export default function MemoItem({ memo, onEdit, onDelete }: MemoItemProps) {
         {/* 액션 버튼 */}
         <div className="flex gap-2 ml-4">
           <button
-            onClick={() => onEdit(memo)}
+            onClick={(e) => {
+              e.stopPropagation()
+              onEdit(memo)
+            }}
             className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
             title="편집"
           >
@@ -74,9 +110,15 @@ export default function MemoItem({ memo, onEdit, onDelete }: MemoItemProps) {
             </svg>
           </button>
           <button
-            onClick={() => {
+            onClick={async (e) => {
+              e.stopPropagation()
               if (window.confirm('정말로 이 메모를 삭제하시겠습니까?')) {
-                onDelete(memo.id)
+                try {
+                  await onDelete(memo.id)
+                } catch (error) {
+                  console.error('Failed to delete memo:', error)
+                  alert('메모 삭제에 실패했습니다.')
+                }
               }
             }}
             className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -102,7 +144,7 @@ export default function MemoItem({ memo, onEdit, onDelete }: MemoItemProps) {
       {/* 내용 */}
       <div className="mb-4">
         <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
-          {memo.content}
+          {stripMarkdown(memo.content)}
         </p>
       </div>
 
